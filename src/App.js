@@ -1,27 +1,49 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import customerService from './services/customer-service'
+import CustomerComponent from './components/CustomerComponent'
+import ProductComponent from './components/ProductComponent'
+import OrderComponent from './components/OrderComponent'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
+import Button from '@material-ui/core/Button'
+import IconButton from '@material-ui/core/IconButton'
+import MenuIcon from '@material-ui/icons/Menu'
 
 class App extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      customers: [],
+      products: [],
+      orders: []
+    }
+  }
+
+  async componentDidMount() {
+    const customers = await customerService.getCustomers()
+    this.setState({ customers: customers.data })
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+      <Router>
+        <div>
+          <AppBar position="static" color='inherit'>
+            <Toolbar>
+              <IconButton><MenuIcon /></IconButton>
+              <Button><Link to="/">Home</Link></Button>
+              <Button><Link to="/customer">Customers</Link></Button>
+              <Button><Link to="/orders">Orders</Link></Button>
+            </Toolbar>
+          </AppBar>
+          <Route exact path="/" render={() => <ProductComponent data={this.state.products}></ProductComponent>} />
+          <Route exact path="/customer" render={() => <CustomerComponent data={this.state.customers}></CustomerComponent>} />
+          <Route exact path="/orders" render={() => <OrderComponent data={this.state.orderss}></OrderComponent>} />
+        </div>
+      </Router>
+    )
   }
 }
 
