@@ -3,12 +3,13 @@ import customerService from './services/customer-service'
 import CustomerComponent from './components/CustomerComponent'
 import ProductComponent from './components/ProductComponent'
 import OrderComponent from './components/OrderComponent'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link} from 'react-router-dom'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
+
 
 class App extends Component {
 
@@ -33,9 +34,9 @@ class App extends Component {
           <AppBar position="static" color='inherit'>
             <Toolbar>
               <IconButton><MenuIcon /></IconButton>
-              <Button><Link to="/">Home</Link></Button>
-              <Button><Link to="/customer">Customers</Link></Button>
-              <Button><Link to="/orders">Orders</Link></Button>
+              <Button component={Link} to="/">Home</Button>
+              <Button component={Link} to="/customer">Customers</Button>
+              <Button component={Link} to="/orders">Orders</Button>
             </Toolbar>
           </AppBar>
           <Route exact path="/" render={() => <ProductComponent data={this.state.products}></ProductComponent>} />
