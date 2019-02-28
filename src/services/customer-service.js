@@ -1,23 +1,29 @@
 import axios from 'axios'
-const baseUrl = '/api/data'
+const baseUrl = 'http://localhost:3003/api/customers'
+const loginUrl = 'http://localhost:3003/api/login'
 
 
-const getCustomers = () => {
-    const promise = axios.get('http://localhost:3003/api/customer/')
-    return promise
+const login = async (loginData) => {
+    const data = await axios.post(loginUrl, loginData)
+    return data
 }
 
-const addCustomer = (newData) => {
-    return axios.post(baseUrl, newData)
-        .then(response => response.data)
+const getCustomers = async () => {
+    const data = await axios.get(baseUrl)
+    return data
 }
 
-const deleteCustomer = (id) => {
-    axios.delete(`${baseUrl}/${id}`)
+const addCustomer = async (newData) => {
+    const data = await axios.post(baseUrl, newData)
+    return data
 }
 
-const updateCustomer = (Data) => {
-    return axios.put(`${baseUrl}/${Data.id}`, Data)
+const deleteCustomer = async (id) => {
+    await axios.delete(`${baseUrl}/${id}`)
 }
 
-export default { getCustomers, addCustomer, deleteCustomer, updateCustomer }
+const updateCustomer = async (Data) => {
+    await axios.put(`${baseUrl}/${Data.id}`, Data)
+}
+
+export default { login, getCustomers, addCustomer, deleteCustomer, updateCustomer }
